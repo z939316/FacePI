@@ -20,7 +20,7 @@ class FacePI:
     def test(self):
         print(self.readConfig())
         config = self.readConfig()
-        print(config["two"])
+        print(config["twooooooooooooooooooooooooooooooooooooooooooo"])
     def detectImage(self):
         headers = {
             # Request headers
@@ -51,3 +51,5 @@ class FacePI:
             print("[Errno {0}] {1}".format(e.errno, e.strerror))
 if __name__ == '__main__':
     fire.Fire(FacePI)
+  git config --global user.email "z939316@gmail.com"
+  git config --global user.name "z939316"
