@@ -1,7 +1,20 @@
-import fire, json, http.client, urllib.request, urllib.parse, urllib.error, base64
+import sys, os, json, time, fire
+import http.client, urllib.request, urllib.parse, urllib.error, base64
+import ClassApi.ClassFacePI
 
-imagepath = "Korea_fish.jpg"
+
+basepath = os.path.dirname(os.path.realpath(__file__))
+configpath = os.path.join(basepath, 'Config.json')
 class FacePI:
+
+    def show_opencv(self):
+        classes.ClassOpenCV.show_opencv('hint')
+    def __init__(self):
+        self.detect = ClassApi.ClassFacePI.Face()
+    def Signin(self):
+        imagepath = "Korea_fish.jpg"
+        self.detect.detectLocalImage(imagepath)
+        '''
     def readConfig(self):
         with open("config.json", "r", encoding="utf-8") as f:
             config=json.load(f)
@@ -53,3 +66,6 @@ if __name__ == '__main__':
     fire.Fire(FacePI)
   git config --global user.email "z939316@gmail.com"
   git config --global user.name "z939316"
+'''
+pi = FacePI()
+pi.Signin()
