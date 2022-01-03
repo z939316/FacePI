@@ -14,58 +14,43 @@ class FacePI:
     def Signin(self):
         imagepath = "Korea_fish.jpg"
         self.detect.detectLocalImage(imagepath)
-        '''
-    def readConfig(self):
-        with open("config.json", "r", encoding="utf-8") as f:
-            config=json.load(f)
-        return config
-    def writeConfig(self,config):
-        with open("config.json", "w", encoding="utf-8") as f:
-            json.dump(config, f)
-    def setConfig(self):
-        config = self.readConfig()
-        print("每個參數後[]為預設值，按enter即表示不更動")
-        api_key = input(f'請輸入有效的API_KEY：{config["api_key"]}: ')
-        if api_key: config["api_key"] = api_key
-        title = input(f'請輸入title[{config["title"]}]: ')
-        if title: config["title"] = title
-        self.writeConfig(config)
-    def test(self):
-        print(self.readConfig())
-        config = self.readConfig()
-        print(config["twooooooooooooooooooooooooooooooooooooooooooo"])
-    def detectImage(self):
-        headers = {
-            # Request headers
-            'Content-Type': 'application/octet-stream',
-            'Ocp-Apim-Subscription-Key': self.readConfig()["api_key"],
-        }
-        print(self.readConfig()["api_key"])
-        requestbody= open(imagepath, "rb").read()
-        params = urllib.parse.urlencode({
-            # Request parameters
-            'returnFaceId': 'true',
-            'returnFaceLandmarks': 'false',
-            'returnFaceAttributes': 'age, gender',
-            'recognitionModel': 'recognition_04',
-            'returnRecognitionModel': 'false',
-            'detectionModel': 'detection_01',
-            'faceIdTimeToLive': '86400',
-        })
+        imagepath = classes.ClassOpenCV.show_opencv()
+        self.Identify(imagepath)
+    def Train(self, userData=None, personname=None):
+        """1. 用 3 連拍訓練一個新人"""
+        jpgimagepaths = []
+        for i in range(3):
+            jpgimagepath = classes.ClassOpenCV.show_opencv(
+                hint=" (訓練第 " + str(i + 1) + " 張)"
+            )
+            jpgimagepaths.append(jpgimagepath)
 
-        try:
-            conn = http.client.HTTPSConnection('eastasia.api.cognitive.microsoft.com')
-            conn.request("POST", "/face/v1.0/detect?%s" % params, requestbody, headers)
-            response = conn.getresponse()
-            data = response.read()
-            print(data)
-            conn.close()
-        except Exception as e:
-            print("[Errno {0}] {1}".format(e.errno, e.strerror))
-if __name__ == '__main__':
-    fire.Fire(FacePI)
-  git config --global user.email "z939316@gmail.com"
-  git config --global user.name "z939316"
-'''
+        if personname == None:
+            personname = input("請輸入您的姓名: ")
+
+        if userData == None:
+            userData = input("請輸入您的說明文字(比如: 高師大附中國一仁): ")
+
+        basepath = os.path.dirname(os.path.realpath(__file__))
+        jpgtrainpaths = []
+        for jpgimagepath in jpgimagepaths:
+            filename = os.path.basename(jpgimagepath)
+            # home = os.path.expanduser("~")
+            jpgtrainpath = os.path.join(
+                basepath, "traindatas", userData, personname, filename
+            )
+            if not os.path.exists(os.path.dirname(jpgtrainpath)):
+                os.makedirs(os.path.dirname(jpgtrainpath))
+            os.rename(jpgimagepath, jpgtrainpath)
+            jpgtrainpaths.append(jpgtrainpath)
+
+        myconfig = classes.ClassConfig.Config().readConfig()
+
+        personAPI = classes.ClassPerson.Person()
+        personAPI.add_personimages(
+            myconfig["personGroupId"], personname, userData, jpgtrainpaths
+        )
+        personGroupapi = classes.ClassPersonGroup.PersonGroup()
+        personGroupapi.train_personGroup()
 pi = FacePI()
 pi.Signin()
