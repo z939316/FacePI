@@ -1,21 +1,25 @@
-import sys, os, json, time, fire
+import sys, os, json, time
+import fire
 import http.client, urllib.request, urllib.parse, urllib.error, base64
 import ClassApi.ClassFacePI
+import ClassApi.ClassOpenCV
+import ClassApi.ClassConfig
+import ClassApi.ClassPersonGroup
 
 
 basepath = os.path.dirname(os.path.realpath(__file__))
 configpath = os.path.join(basepath, 'Config.json')
 class FacePI:
 
-    def show_opencv(self):
-        classes.ClassOpenCV.show_opencv('hint')
+    #def show_opencv(self):
+        #classes.ClassOpenCV.show_opencv('hint')
     def __init__(self):
         self.detect = ClassApi.ClassFacePI.Face()
     def Signin(self):
         imagepath = "Korea_fish.jpg"
         self.detect.detectLocalImage(imagepath)
-        imagepath = classes.ClassOpenCV.show_opencv()
-        self.Identify(imagepath)
+        #imagepath = ClassApi.ClassOpenCV.show_opencv()
+        #self.Identify(imagepath)
     def Train(self, userData=None, personname=None):
         """1. 用 3 連拍訓練一個新人"""
         jpgimagepaths = []
@@ -29,7 +33,7 @@ class FacePI:
             personname = input("請輸入您的姓名: ")
 
         if userData == None:
-            userData = input("請輸入您的說明文字(比如: 高師大附中國一仁): ")
+            userData = input("請輸入您的說明文字(比如: XX高中一仁): ")
 
         basepath = os.path.dirname(os.path.realpath(__file__))
         jpgtrainpaths = []
