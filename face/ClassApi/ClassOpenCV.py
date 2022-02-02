@@ -1,11 +1,11 @@
 import os
 import time
-import classes.ClassConfig
+import ClassApi.ClassConfig
 from PIL import Image, ImageDraw, ImageFont, ImageTk
 import cv2
 import numpy as np
 
-config = classes.ClassConfig.Config().readConfig()
+config = ClassApi.ClassConfig.Config().readConfig()
 
 
 def getTakePicturePath(personGroupId):
@@ -20,9 +20,9 @@ def getTakePicturePath(personGroupId):
         os.makedirs(os.path.dirname(jpgimagepath))
     return jpgimagepath
 
-
+'''
 def show_opencv(hint='', mirror=True):
-    ''' 顯示主畫面 '''
+    ''' '''顯示主畫面''' '''
 
     #cam = cv2.VideoCapture(config['videoid'])
     print('open cam')
@@ -84,3 +84,4 @@ def show_opencv(hint='', mirror=True):
         else:
             if key != -1:
                 print('key=', key)
+'''

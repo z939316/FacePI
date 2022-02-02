@@ -1,7 +1,7 @@
 import http.client, urllib.request, urllib.parse, urllib.error, base64, json
-import classes.ClassConfig
+import ClassApi.ClassConfig
 
-config = classes.ClassConfig.Config().readConfig()
+config = ClassApi.ClassConfig.Config().readConfig()
 
 
 class PersonGroup:
